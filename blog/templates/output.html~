@@ -1,0 +1,12 @@
+<html>
+<form method="post">
+{% csrf_token %}
+<script>
+
+alert('{{pred}}')
+</script>
+
+</form>
+</body>
+</html>
+

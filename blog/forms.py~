@@ -1,0 +1,6 @@
+from django import forms
+from .models import Text
+
+class TextForm(forms.Modelform): 
+	class Meta:
+		model=Text

@@ -1,0 +1,20 @@
+<html>
+{% csrf_token %}
+
+<script>
+function pred(){
+alert('{{pred}}')
+}
+</script>
+
+<form method="post">
+
+{{ form.as_p}}
+<input type="text" name="text" value=""/>
+<input type="submit" name="tweet" value="Submit" onclick="pred()" />
+
+</form>
+
+
+</body>
+</html>

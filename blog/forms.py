@@ -1,9 +1,6 @@
 from django import forms
+from .models import Text
 
-from .models import Post
-
-class PostForm(forms.ModelForm):
-
-    class Meta:
-        model = Post
-        fields = ('title', 'text',)
+class TextForm(forms.Form): 
+	class Meta:
+		model=Text

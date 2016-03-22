@@ -1,6 +1,9 @@
-from django.shortcuts import render
-from django.utils import timezone
-from .models import Post
+from django.shortcuts import render,redirect
+from django import forms
+
+from .forms import TextForm 
+
+
 import sklearn.datasets
 import sklearn.metrics
 import sklearn.cross_validation
@@ -12,26 +15,39 @@ import sklearn.feature_extraction.text
 import sklearn.svm
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-def post_list(request):
-    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-    return render(request, 'blog/post_list.html', {'posts': posts})
+
+# Create your views here.
+from django.http import HttpResponse
+
+def form(request):
+	if request.method=="POST":
+		form=TextForm(request.POST)
+		if form.is_valid():
+			text=form.cleaned_data['text']
+			form.save(commit=True)
+			return index(request)
+	else :
+		form=TextForm()
+	print request.POST.get('text')
+	return render(request,'form.html',{'form':form})
+
 
 def return_data(request):
-	print ("InNow")
+	print "InNow"
 	clf = sklearn.svm.LinearSVC()
 
-	training_files = sklearn.datasets.load_files("/home/ubuntu/Desktop/SVM/dataset_training")
-	f=open("/home/ubuntu/Desktop/SVM/dataset_prediction/test/test.txt",'w+')
-	text=request.POST.get('input')
+	training_files = sklearn.datasets.load_files("/home/husen/Desktop/SVM/dataset_training")
+	f=open("/home/husen/Desktop/SVM/dataset_prediction/test/test.txt",'w+')
+	text=request.POST.get('text')
 	f.write(text)
 	f.close()
-	print ("Text ",text)
+	print "Text ",text
 	
 	#print training_files.data
 
-	predict_files = sklearn.datasets.load_files("/home/ubuntu/Desktop/SVM/dataset_prediction")
+	predict_files = sklearn.datasets.load_files("/home/husen/Desktop/SVM/dataset_prediction")
 
-	print ("Predict",predict_files.data)
+	print "Predict",predict_files.data
 
 	vectorizer = TfidfVectorizer(encoding='utf-8')
 	X_t = vectorizer.fit_transform((open(f).read() for f in training_files.filenames))
@@ -42,13 +58,13 @@ def return_data(request):
 
 	X_p = vectorizer.transform((open(f).read() for f in predict_files.filenames))
 
-	print (X_p)
+	print X_p
 	clf.fit(X_t, training_files.target)
 	y_predicted=""
 	y_predicted = clf.predict(X_p)
 	print "OUT",y_predicted
 	if y_predicted[0]==0:
 		
-		return render(request,'output.html',{'pred':"Dont be a bully bitch"})
+		return render(request,'output.html',{'pred':"Don't be a bully bitch"})
 	else:
-		return render(request,'output.html',{'pred':"Dont be a noob"})
+		return render(request,'output.html',{'pred':"Don't be a noob"})

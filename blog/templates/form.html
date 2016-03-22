@@ -1,0 +1,14 @@
+<html>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+<form action = "output/" method="post">
+{% csrf_token %}
+{{ form.as_p}}
+{{ pred }}
+<input type="text" name="text" value=""/>
+<input type="submit" name="tweet" value="Submit"/>
+
+
+</form>
+</body>
+</html>
