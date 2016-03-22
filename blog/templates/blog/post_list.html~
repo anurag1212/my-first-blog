@@ -21,7 +21,7 @@
   <input type="text" name="input" value=""><br><br>
   <input type="submit" value="Submit"><br><br>
   Output:<br>
-  <input type="text" name="output" value="Output here"><br><br>
+  <input type="text" name="output" value=""><br><br>
 </form> 
 </form> 
         </div>
